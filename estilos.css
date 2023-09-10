@@ -1,0 +1,38 @@
+body, .modal-footer,.modal-header{
+    background: #0575E6;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #021B79, #0575E6);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #021B79, #0575E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: aliceblue;
+}
+
+#navbar{
+    background-color: rgb(103, 103, 104) !important;
+    opacity: 80%;
+}
+
+#navbar div a{
+    color:aliceblue;
+}
+
+#lista>div, .page-link, #form-buscar button{
+    background-color: rgb(103, 103, 104);
+    opacity: 80%;
+    transition: all ease-in-out 1s;
+}
+
+
+#lista>div:hover, #form-buscar button:hover{
+    background-color: aliceblue;
+    color: rgb(49, 49, 49);
+    cursor: pointer;
+}
+
+.pagination>li>a.active{
+    background-color: aliceblue ;
+    color: rgb(49, 49, 49);
+}
+
+main, form{
+    max-width: 600px;
+}
+
