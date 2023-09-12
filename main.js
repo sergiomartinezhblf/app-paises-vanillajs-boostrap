@@ -44,32 +44,35 @@ const fetchData = async() =>{
         inputBuscar.value=""    
         if(e.target.value==="Todas"){ 
         pintarPagina(paginas)
-        paginacion.style.display="block"
+        paginacion.style.visibility="visible"
         inputSubregion.innerHTML="<option selected>---</option>"
         }
         else {let paises = data.filter(el=>el.region===e.target.value)
-            pintarPaises(paises)
-            paginacion.style.display="none"
+            pagina_activa=1
+            pintarPaises(paises,pagina_activa)
+            paginacion.style.visibility="hidden"
         }})
 
         //FILTRA LOS PAISES POR SUBREGION
         inputSubregion.addEventListener("change",(e)=>{
           console.log(e.target.value)
           let paises = data.filter(el=>el.subregion===e.target.value)
-          pintarPaises(paises)
+          pagina_activa=1
+          pintarPaises(paises,pagina_activa)
         })
 
         //FILTRA PAIS POR INPUT BUSCAR
         inputBuscar.addEventListener("keyup",(e)=>{
-            paginacion.style.display="none"
+            paginacion.style.visibility="hidden"
             pintarInputRegiones(regiones)
             inputSubregion.innerHTML="<option selected>---</option>"
             let buscar = e.target.value.toLowerCase()
             let paises = data.filter(el=>el.name.common.toLowerCase().includes(buscar))
-            pintarPaises(paises)
+            pagina_activa=1
+            pintarPaises(paises,pagina_activa)
             if (buscar==="")
             {pintarPagina(paginas)
-            paginacion.style.display="block"    
+            paginacion.style.visibility="visible"    
             }
             if(paises.length==0) lista.innerHTML="No se encontraron resultados para la busqueda"
         })
@@ -78,7 +81,7 @@ const fetchData = async() =>{
         formBuscar.addEventListener("submit",(e)=>{
             e.preventDefault()
             console.log(inputBuscar.value)
-            paginacion.style.display="none"
+            paginacion.style.visibility="visible"
             pintarInputRegiones(regiones)
             inputSubregion.innerHTML="<option selected>---</option>"
             let buscar = inputBuscar.value.toLowerCase()
@@ -86,7 +89,7 @@ const fetchData = async() =>{
             pagina_activa=1
             pintarPaises(paises)
             if (inputBuscar.value===""){pintarPagina(paginas)
-                paginacion.style.display="block"    
+                paginacion.style.visibility="visible"    
                 }
                 if(paises.length==0) lista.innerHTML="No se encontraron resultados para la busqueda"    
         })
@@ -170,17 +173,17 @@ const pintarPagina =(paginas,pag=1)=>{
   let pagina = paginas[pag-1]
   pagina_activa=parseInt(pagina.pagina)
   console.log(pagina_activa)
-  pintarPaises(pagina.paises)
+  pintarPaises(pagina.paises,pagina_activa)
    pag==1? document.querySelectorAll(".page-link")[1].classList.add("active")
    :document.querySelectorAll(".page-link")[1].classList.remove("active")
 }
 
-const pintarPaises = (data)=>{
+const pintarPaises = (data,pag_activa)=>{
     let paises=""
     data.forEach((el,index) => {
         paises+=`
     <div class="row my-1 pais py-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-country="${el.name.common}">
-    <div class="col-3 d-flex justify-content-around align-items-center">${index+1+((pagina_activa-1)*40)} <img src="${el.flags.svg}" style="width:50px;"></img></div>
+    <div class="col-3 d-flex justify-content-around align-items-center">${index+1+((pag_activa-1)*40)} <img src="${el.flags.svg}" style="width:50px;"></img></div>
     <div class="col-5 d-flex align-items-center">${el.name.common}</div>
     <div class="col-4 d-flex align-items-center">${el.capital}</div>
     </div>` 
